@@ -1,0 +1,47 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>T-Test Calculator</title>
+</head>
+<body>
+    <h2>T-Test Hesaplayıcı</h2>
+    <div id="form">
+        <p>Birinci grup verilerini gir (örn. 3, 6, 9):<br>
+            <input type="text" id="data1" name="data1">
+        </p>
+        <p>İkinci grup verilerini gir (örn. 2, 4, 6, 8):<br>
+            <input type="text" id="data2" name="data2">
+        </p>
+        <button onclick="calculateTTest()">Hesapla</button>
+    </div>
+    <div id="result"></div>
+    <script>
+        function calculateTTest() {
+            const data1 = document.getElementById("data1").value.split(',').map(Number);
+            const data2 = document.getElementById("data2").value.split(',').map(Number);
+
+        
+            function mean(arr) {
+                return arr.reduce((acc, val) => acc + val, 0) / arr.length;
+            }
+
+            
+            function std(arr, mean) {
+                return Math.sqrt(arr.reduce((acc, val) => acc + Math.pow(val - mean, 2), 0) / (arr.length - 1));
+            }
+
+            const mean1 = mean(data1);
+            const mean2 = mean(data2);
+            const std1 = std(data1, mean1);
+            const std2 = std(data2, mean2);
+
+        
+            const tValue = (mean1 - mean2) / Math.sqrt((Math.pow(std1, 2) / data1.length) + (Math.pow(std2, 2) / data2.length));
+
+            document.getElementById("result").innerText = 't değeri: ' + tValue.toFixed(4);
+        }
+    </script>
+</body>
+</html>
+
